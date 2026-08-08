@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+:root {
+  --tesla-red: #E82127;
+  --tesla-red-hover: #FF3B41;
+  --tesla-red-glow: rgba(232, 33, 39, 0.35);
+  --bg: #000000;
+  --bg-card: #121214;
+  --bg-card-hover: #1A1A1D;
+  --border: #26262A;
+  --text: #FFFFFF;
+  --text-secondary: #B0B0B5;
+  --text-muted: #6E6E73;
+  --success: #30D158;
+  --danger: #FF453A;
+}
+
+@theme inline {
+  --color-tesla-red: var(--tesla-red);
+  --color-tesla-red-hover: var(--tesla-red-hover);
+  --color-bg: var(--bg);
+  --color-bg-card: var(--bg-card);
+  --color-border: var(--border);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --font-sans: var(--font-geist-sans);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.tesla-gradient {
+  background: radial-gradient(ellipse at 30% 40%, rgba(232, 33, 39, 0.09) 0%, transparent 65%);
+}
+
+.glass {
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.ticker-track {
+  display: flex;
+  gap: 1.5rem;
+  animation: scroll 45s linear infinite;
+  white-space: nowrap;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.85); }
+}
+
+.live-dot::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--success);
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.5rem;
+  animation: pulse-dot 1.6s infinite;
+}

@@ -1,0 +1,14 @@
+TESLA TRADE — CLEAN GO-LIVE
+
+1. Extract this archive completely.
+2. Confirm you see: package.json, src/, public/, next.config.ts
+3. GitHub: create NEW empty repo (no README).
+4. Upload ALL of: src, public, package.json, package-lock.json,
+   next.config.ts, tsconfig.json, postcss.config.mjs,
+   eslint.config.mjs, next-env.d.ts, .gitignore
+5. Vercel: Import repo.
+6. Env var: NEXT_PUBLIC_ADMIN_PASSWORD = your password
+7. Deploy. Wait for green Ready.
+8. Open site → /admin → set WhatsApp → Reset All Data once.
+
+Admin default password if env missing: tesla2026
