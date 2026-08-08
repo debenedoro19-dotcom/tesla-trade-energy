@@ -54,7 +54,7 @@ export default function HomePage() {
 
     (async () => {
       try {
-        const [inv, tes, set, invp, pays, port, gws] = await Promise.all([
+        let [inv, tes, set, invp, pays, port, gws] = await Promise.all([
           store.getInventory(),
           store.getTestimonials(),
           Promise.resolve(store.getSettings()),
@@ -63,13 +63,25 @@ export default function HomePage() {
           store.getPortfolio(),
           store.getGiveaways(),
         ]);
-        setInventory(inv.filter((i) => i.status === "available"));
-        setTestimonials(tes.filter((t) => t.approved));
+        let invList = inv.filter((i: any) => i.status === "available");
+        if (invList.length === 0 && typeof store.resetAll === "function") {
+          store.resetAll();
+          inv = await store.getInventory();
+          tes = await store.getTestimonials();
+          invp = await store.getInvestments();
+          pays = await store.getPayments();
+          port = await store.getPortfolio();
+          gws = await store.getGiveaways();
+          set = store.getSettings();
+          invList = inv.filter((i: any) => i.status === "available");
+        }
+        setInventory(invList);
+        setTestimonials(tes.filter((x: any) => x.approved));
         setSettings(set);
-        setInvestments(invp.filter((i) => i.active));
-        setPayments(pays.filter((p) => p.active));
+        setInvestments(invp.filter((x: any) => x.active));
+        setPayments(pays.filter((x: any) => x.active));
         setPortfolio(port);
-        setGiveaways(gws.filter((g) => g.active));
+        setGiveaways(gws.filter((x: any) => x.active));
       } catch (e) {
         console.error(e);
       } finally {
@@ -290,10 +302,12 @@ export default function HomePage() {
 
   return (
     <>
+      <div className="crypto-bg" aria-hidden />
+      <div className="crypto-grid" aria-hidden />
       {/* HEADER */}
       <header
         className={`fixed top-0 left-0 right-0 z-50 h-[72px] flex items-center justify-between px-6 md:px-10 transition-all duration-300 ${
-          scrolled ? "bg-black/90 backdrop-blur-xl border-b border-[#26262A]" : "bg-black/70 backdrop-blur-xl"
+          scrolled ? "glass-strong border-b border-[#1E1E26]" : "bg-[#050507]/80 backdrop-blur-xl"
         }`}
       >
         <Link href="/" className="flex items-center gap-3 font-bold text-xl tracking-tight">
@@ -838,7 +852,7 @@ export default function HomePage() {
         <p className="mt-4">
           <Link href="/signup" className="text-[#6E6E73] hover:text-[#E82127] transition text-xs mr-4">Sign Up</Link>
           <Link href="/login" className="text-[#6E6E73] hover:text-[#E82127] transition text-xs mr-4">Login</Link>
-          <Link href="/admin" className="text-[#6E6E73] hover:text-[#E82127] transition text-xs">Admin →</Link>
+          {/* Admin access is private — not linked publicly */}
         </p>
       </footer>
 
